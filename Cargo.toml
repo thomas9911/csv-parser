@@ -1,0 +1,18 @@
+[package]
+name = "csv-parser"
+version = "0.1.0"
+authors = ["thomas9911 <thomastimmer11@hotmail.com>"]
+edition = "2018"
+
+[dependencies]
+pest = "*"
+pest_derive = "*"
+
+
+[lib]
+name = "csv_parser"
+path = "src/lib.rs"
+
+[[bin]]
+name = "mybin"
+path = "src/main.rs"

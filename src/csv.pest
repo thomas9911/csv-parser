@@ -1,0 +1,14 @@
+// WHITESPACE = _{ " " | "\t" }
+// WHITESPACE = _{ "," }
+WHITESPACE = _{ " " }
+
+csv = _{ SOI ~ ( lines+ | "") ~ EOI }
+lines = _{ ("\r\n" | "\n")* ~ values ~ ("\r\n" | "\n")* }
+values = { value ~ ( split ~ value)* }
+// value = { !split }
+value = _{ (number | txt)+ }
+number = { (NUMBER | ".")+ }
+txt = _{ (quote ~ string ~ quote)+ }
+quote = _{( "\"\"\"" | "\"" | "\'" )}
+string = { (LETTER | SYMBOL | number | MARK | split)+ }
+split = _{ "," }

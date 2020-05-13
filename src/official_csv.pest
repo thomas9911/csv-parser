@@ -1,0 +1,19 @@
+// from https://tools.ietf.org/html/rfc4180#section-2
+
+file = _{ SOI ~ (header ~ CRLF)? ~ record ~ (CRLF ~ record)* ~ CRLF? ~ EOI }
+header = {name ~ (COMMA ~ name)*}
+record = {field ~ (COMMA ~ field)*}
+name = {field}
+field = {(escaped | non_escaped)}
+escaped = _{DQUOTE ~ (TEXTDATA | COMMA | CR | LF | DQUOTE{2})* ~ DQUOTE}
+non_escaped = _{TEXTDATA*}
+
+COMMA = _{"\u{002C}"}
+CR = _{"\u{000D}"} //  as per section 6.1 of RFC 2234 [2]
+DQUOTE =  _{"\u{0022}"} // as per section 6.1 of RFC 2234 [2]
+LF = _{"\u{000A}"} // as per section 6.1 of RFC 2234 [2]
+// CRLF = _{CR ~ LF} // as per section 6.1 of RFC 2234 [2]
+CRLF = _{ "\n" | "\r" | "\n\r" }
+TEXTDATA =  _{ ('\u{0020}'..'\u{0021}') | ('\u{0023}'..'\u{002B}') | ('\u{002D}'..'\u{007E}') }
+
+
